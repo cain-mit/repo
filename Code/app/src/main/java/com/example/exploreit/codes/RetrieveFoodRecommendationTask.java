@@ -1,6 +1,6 @@
 package com.example.exploreit.codes;
 
-import android.provider.DocumentsContract;
+import android.os.AsyncTask;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -33,12 +32,13 @@ import javax.xml.transform.stream.StreamSource;
 /**
  * Created by Cain on 04-02-2016.
  */
-public class FoodRecommendation
+public class RetrieveFoodRecommendationTask extends AsyncTask<Double,Void,List<Food>>
 {
-    public List<Food> getApiFoodRecommendations(double lat, double lon, double radius)
+    @Override
+    protected List<Food> doInBackground(Double... params)
     {
         List<Food> foods = new ArrayList<Food>();
-        String param = lat + "&lon=" + lon + "&radius=" + radius;
+        String param = params[0] + "&lon=" + params[1] + "&radius=" + params[2];
         String query = null;
         try
         {
@@ -48,7 +48,7 @@ public class FoodRecommendation
         {
             e.printStackTrace();
         }
-        String xml = getResponseFromZomatao(query);
+        String xml = getResponseFromZomato(query);
         try
         {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -64,13 +64,13 @@ public class FoodRecommendation
                 foods.add(food);
             }
         }
+
         catch (Exception e)
         {
             e.printStackTrace();
         }
         return foods;
     }
-
     private Food getFoodObject(Node node) {
         Food food = new Food();
         if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -92,8 +92,7 @@ public class FoodRecommendation
         }
         return food;
     }
-
-    private String getResponseFromZomatao(String query)
+    private String getResponseFromZomato(String query)
     {
         String formatted="";
         HttpURLConnection connection = null;
@@ -116,7 +115,7 @@ public class FoodRecommendation
         }
         catch (Exception e)
         {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         finally
         {
@@ -144,5 +143,9 @@ public class FoodRecommendation
         {
             throw new RuntimeException(e); // simple exception handling, please review it
         }
+    }
+    protected void onPostExecute(List<Food> foods)
+    {
+        //Populate view over here
     }
 }
