@@ -6,9 +6,19 @@ import java.util.Date;
  * Created by Cain on 03-02-2016.
  */
 public class Recommendation {
-    private int userid,recomid,imageid;
-    private String description,name,type;
+    private int userid,recomid;
+    private String description,name,type,imageid;
     private Date timestamp;
+
+    public boolean isApiGenerated() {
+        return apiGenerated;
+    }
+
+    public void setApiGenerated(boolean apiGenerated) {
+        this.apiGenerated = apiGenerated;
+    }
+
+    private boolean apiGenerated;
 
     public double getLati() {
         return lati;
@@ -44,11 +54,11 @@ public class Recommendation {
         this.recomid = recomid;
     }
 
-    public int getImageid() {
+    public String getImageid() {
         return imageid;
     }
 
-    public void setImageid(int imageid) {
+    public void setImageid(String imageid) {
         this.imageid = imageid;
     }
 
@@ -84,13 +94,13 @@ public class Recommendation {
         this.timestamp = timestamp;
     }
 
-    public boolean isRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(boolean rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
 
-    private boolean rating;
+    private String rating;
 }
