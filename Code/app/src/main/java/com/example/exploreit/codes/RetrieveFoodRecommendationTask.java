@@ -98,7 +98,7 @@ public class RetrieveFoodRecommendationTask extends AsyncTask<Double,Void,List<F
         HttpURLConnection connection = null;
         try
         {
-            URL obj = new URL("https://developers.zomato.com/api/v2.1/search?lat=12.966344&lon=77.601746&radius=500");
+            URL obj = new URL(query);
             connection = (HttpURLConnection)obj.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/xml");
